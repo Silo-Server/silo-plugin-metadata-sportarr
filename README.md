@@ -19,6 +19,11 @@ go build .
 
 Metadata provided by [Sportarr](https://sportarr.net).
 
+## Releases
+
+Releases are signed with GitHub artifact attestations. [CONTRIBUTING.md](CONTRIBUTING.md#release)
+describes how maintainers cut a release and how to verify a downloaded binary.
+
 ## License
 
 `silo-plugin-metadata-sportarr` is licensed under `AGPL-3.0-or-later`. See [LICENSE](LICENSE).
