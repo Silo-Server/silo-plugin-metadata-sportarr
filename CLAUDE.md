@@ -9,7 +9,7 @@ make build          # Build binary → ./plugin
 make test           # go test ./...
 make lint           # golangci-lint run ./...
 make clean          # Remove binary
-make build-all      # Cross-compile for linux/amd64, linux/arm64, darwin/arm64
+make build-all      # Cross-compile for linux/amd64, linux/arm64, darwin/arm64, freebsd/amd64, freebsd/arm64
 go test -run TestName ./provider/  # Run a single test
 go vet ./...        # Static analysis (also runs in CI)
 ```
