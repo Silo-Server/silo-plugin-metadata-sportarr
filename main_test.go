@@ -11,6 +11,7 @@ import (
 
 	pluginv1 "github.com/Silo-Server/silo-plugin-sdk/pkg/pluginproto/silo/plugin/v1"
 	publicmanifest "github.com/Silo-Server/silo-plugin-sdk/pkg/pluginsdk/manifest"
+	"github.com/Silo-Server/silo-plugin-sportarr/metadata"
 	"google.golang.org/protobuf/types/known/structpb"
 )
 
@@ -364,4 +365,18 @@ func containsAll(value string, needles ...string) bool {
 		}
 	}
 	return true
+}
+
+// Sportarr's season and episode numbers are synthetic ("S2026E296"), so its
+// series ask the host to label episodes by air date instead.
+func TestSeriesItemAsksForAirDateEpisodeLabels(t *testing.T) {
+	item, err := metadataItemFromResult(&metadata.MetadataResult{
+		HasMetadata: true, Title: "NBA", ProviderIDs: map[string]string{"sportarr": "lg-000030"},
+	}, "series", defaultBaseURL)
+	if err != nil {
+		t.Fatalf("metadataItemFromResult: %v", err)
+	}
+	if got := item.GetMetadata().AsMap()["episode_labels"]; got != "air_date" {
+		t.Fatalf("metadata.episode_labels = %v, want air_date", got)
+	}
 }

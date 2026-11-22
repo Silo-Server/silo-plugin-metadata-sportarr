@@ -444,7 +444,7 @@ func metadataItemFromResult(result *metadata.MetadataResult, itemType, baseURL s
 		return nil, err
 	}
 
-	return &pluginv1.MetadataItem{
+	item := &pluginv1.MetadataItem{
 		ProviderId:       result.ProviderIDs["sportarr"],
 		ItemType:         itemType,
 		Title:            result.Title,
@@ -468,7 +468,17 @@ func metadataItemFromResult(result *metadata.MetadataResult, itemType, baseURL s
 		FirstAirDate:     result.FirstAirDate,
 		LastAirDate:      result.LastAirDate,
 		AirTime:          result.AirTime,
-	}, nil
+	}
+	if itemType == "series" {
+		// Sportarr numbers a league's events S<year>E<n> so they sort as a TV
+		// season; the numbers mean nothing to a viewer, so ask the host to
+		// label the series' episodes by air date.
+		item.Metadata, err = structpb.NewStruct(map[string]any{"episode_labels": "air_date"})
+		if err != nil {
+			return nil, err
+		}
+	}
+	return item, nil
 }
 
 func stringMapFromStruct(value *structpb.Struct) map[string]string {

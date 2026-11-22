@@ -296,7 +296,7 @@ func (p *Provider) GetEpisodes(ctx context.Context, req metadata.EpisodesRequest
 			EpisodeNumber: ep.EpisodeNumber,
 			Title:         ep.Title,
 			Overview:      ep.Summary,
-			AirDate:       ep.AirDate,
+			AirDate:       episodeAirDate(ep),
 			Runtime:       ep.DurationMinutes,
 			StillPath:     ep.ThumbURL,
 		})
@@ -357,4 +357,13 @@ func publicSeriesImages(series *AgentSeriesResponse) []metadata.RemoteImage {
 		images = append(images, metadata.RemoteImage{URL: series.BannerURL, Type: metadata.ImageBanner})
 	}
 	return images
+}
+
+// episodeAirDate prefers the local broadcast date. air_date is the UTC date of
+// the start, which is the next day for an evening event in the Americas.
+func episodeAirDate(ep AgentEpisode) string {
+	if ep.BroadcastDate != "" {
+		return ep.BroadcastDate
+	}
+	return ep.AirDate
 }

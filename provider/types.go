@@ -52,13 +52,16 @@ type AgentEpisodesResponse struct {
 }
 
 type AgentEpisode struct {
-	ID              string `json:"id"`
-	HubID           string `json:"hub_id"`
-	Title           string `json:"title"`
-	Summary         string `json:"summary"`
-	SeasonNumber    int    `json:"season_number"`
-	EpisodeNumber   int    `json:"episode_number"`
+	ID            string `json:"id"`
+	HubID         string `json:"hub_id"`
+	Title         string `json:"title"`
+	Summary       string `json:"summary"`
+	SeasonNumber  int    `json:"season_number"`
+	EpisodeNumber int    `json:"episode_number"`
+	// AirDate is the UTC date of the scheduled start; BroadcastDate is the
+	// day the event was shown where it took place.
 	AirDate         string `json:"air_date"`
+	BroadcastDate   string `json:"broadcast_date"`
 	DurationMinutes int    `json:"duration_minutes"`
 	ThumbURL        string `json:"thumb_url"`
 	PartName        string `json:"part_name"`
