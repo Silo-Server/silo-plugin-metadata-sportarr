@@ -386,7 +386,7 @@ func TestGetEpisodes(t *testing.T) {
 }
 
 // air_date is the UTC date of the start, so a US evening game lands a day
-// late. broadcast_date is the day the event was shown where it took place.
+// late. broadcast_date is the date in the event's broadcast time zone.
 func TestGetEpisodesUsesBroadcastDate(t *testing.T) {
 	p := newTestProvider(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		encodeJSON(t, w, AgentEpisodesResponse{

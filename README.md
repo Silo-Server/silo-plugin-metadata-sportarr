@@ -10,9 +10,11 @@ Those numbers mean nothing to viewers, so series returned by this plugin carry
 by date instead.
 
 An episode's air date is Sportarr's `broadcast_date`: the day of the event in
-the event's broadcast time zone. The plugin falls back to `air_date`, the UTC
-date of the start, only when `broadcast_date` is missing; `air_date` is a day
-late for an evening event in the Americas.
+its broadcast time zone, which is also the date Sportarr writes into file names.
+The plugin falls back to `air_date`, the UTC date of the start, only when
+`broadcast_date` is missing. `air_date` can be a day off: an evening game in the
+Americas lands on the next day, and an afternoon event in Australia on the day
+before.
 
 ## Dependency Model
 

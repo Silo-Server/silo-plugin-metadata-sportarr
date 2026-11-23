@@ -59,7 +59,7 @@ type AgentEpisode struct {
 	SeasonNumber  int    `json:"season_number"`
 	EpisodeNumber int    `json:"episode_number"`
 	// AirDate is the UTC date of the scheduled start; BroadcastDate is the
-	// day the event was shown where it took place.
+	// date in the event's broadcast time zone, which need not be the venue's.
 	AirDate         string `json:"air_date"`
 	BroadcastDate   string `json:"broadcast_date"`
 	DurationMinutes int    `json:"duration_minutes"`

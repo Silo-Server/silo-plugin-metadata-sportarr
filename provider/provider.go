@@ -359,8 +359,8 @@ func publicSeriesImages(series *AgentSeriesResponse) []metadata.RemoteImage {
 	return images
 }
 
-// episodeAirDate prefers the local broadcast date. air_date is the UTC date of
-// the start, which is the next day for an evening event in the Americas.
+// episodeAirDate prefers the broadcast date, which Sportarr also writes into
+// file names. air_date is the UTC date of the start and can be a day off.
 func episodeAirDate(ep AgentEpisode) string {
 	if ep.BroadcastDate != "" {
 		return ep.BroadcastDate
