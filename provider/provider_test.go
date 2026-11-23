@@ -385,6 +385,34 @@ func TestGetEpisodes(t *testing.T) {
 	}
 }
 
+// air_date is the UTC date of the start, so a US evening game lands a day
+// late. broadcast_date is the date in the event's broadcast time zone.
+func TestGetEpisodesUsesBroadcastDate(t *testing.T) {
+	p := newTestProvider(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		encodeJSON(t, w, AgentEpisodesResponse{
+			Episodes: []AgentEpisode{
+				{ID: "ev-2610871", Title: "Chicago Bulls vs Washington Wizards", SeasonNumber: 2026, EpisodeNumber: 296,
+					AirDate: "2026-11-21", BroadcastDate: "2026-11-20"},
+				{ID: "ev-older", Title: "No broadcast date", SeasonNumber: 2026, EpisodeNumber: 297, AirDate: "2026-11-21"},
+			},
+		})
+	}))
+
+	episodes, err := p.GetEpisodes(context.Background(), metadata.EpisodesRequest{
+		ProviderIDs:  map[string]string{"sportarr": "lg-000030"},
+		SeasonNumber: 2026,
+	})
+	if err != nil {
+		t.Fatalf("get episodes failed: %v", err)
+	}
+	if got := episodes[0].AirDate; got != "2026-11-20" {
+		t.Errorf("air date = %q, want the broadcast date 2026-11-20", got)
+	}
+	if got := episodes[1].AirDate; got != "2026-11-21" {
+		t.Errorf("air date without broadcast_date = %q, want air_date 2026-11-21", got)
+	}
+}
+
 func TestGetImagesForSeries(t *testing.T) {
 	p := newTestProvider(t, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path == "/api/metadata/agents/series/lg-000001" {
